@@ -3,19 +3,25 @@ import { createTheme } from '@mui/material/styles';
 let theme = createTheme({
     palette: {
         primary: {
-        main: '#24406C',
+            main: '#24406C',
         },
         secondary: {
-        main: '#E0E0E0',
+            main: '#e0e0e0',
         },
         background: {
-            main: '#edf2ff',
+            main: '#ffffff',
+        },
+        secondary_background: {
+            main: '#f4f4f4',
         },
         secondary_button: {
             main: '#a10e25',
         },
-        secondary: {
-            main: '#edf2ff',
+        notifications: {
+            main: '#5cb85c',
+        },
+        alerts: {
+            main: '#ff7700',
         },
     },
 });
