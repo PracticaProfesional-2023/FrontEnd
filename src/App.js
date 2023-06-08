@@ -1,10 +1,10 @@
 import * as React from 'react';
-import ButtonAppBar from './components/Navbar';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div>
-      <ButtonAppBar />
+      <Navbar flag={false}/>
     </div>
   );
 }

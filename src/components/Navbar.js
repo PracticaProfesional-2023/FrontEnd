@@ -4,36 +4,31 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../Style/Theming';
 
 
-function ButtonAppBar() {
+const Navbar = (flag) => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar color="#24406C">
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    News
-                </Typography>
-                <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
+                <AppBar position="static" >
+                    <Toolbar>
+                        <Typography variant="h8" component="div" sx={{ flexGrow: 1 }}>
+                            HireJobs
+                        </Typography>
+                        { !flag ?
+                            (<Box sx={{ flexGrow: 0.05 }} display="flex" justifyContent="space-between">
+                                <Button variant="outlined" color="inherit">Login</Button>
+                                <Button variant="outlined" color="inherit">Register</Button>
+                            </Box>) : 
+                            (<Button variant="outlined" color="inherit" >Logout</Button>)                                
+                        }   
+                    </Toolbar>
+                </AppBar>
             </Box>
         </ThemeProvider>
     );
 }
 
-export default ButtonAppBar
+export default Navbar

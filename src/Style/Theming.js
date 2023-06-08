@@ -24,6 +24,11 @@ let theme = createTheme({
             main: '#ff7700',
         },
     },
+    typography: {
+        button: {
+        fontSize: 12,
+        }
+    },
 });
 
 export {theme};
