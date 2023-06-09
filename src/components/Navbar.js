@@ -6,9 +6,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../Style/Theming';
+import { Link } from 'react-router-dom';
 
 
-const Navbar = (flag) => {
+const Navbar = ({flag}) => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
@@ -19,8 +20,12 @@ const Navbar = (flag) => {
                         </Typography>
                         { !flag ?
                             (<Box sx={{ flexGrow: 0.05 }} display="flex" justifyContent="space-between">
-                                <Button variant="outlined" color="inherit">Login</Button>
-                                <Button variant="outlined" color="inherit">Register</Button>
+                                <Link to="/hirejobs/login">
+                                    <Button variant="outlined" color="inherit">Login</Button>
+                                </Link>
+                                <Link to="/hirejobs/register">
+                                    <Button variant="outlined" color="inherit">Register</Button>
+                                </Link>
                             </Box>) : 
                             (<Button variant="outlined" color="inherit" >Logout</Button>)                                
                         }   
