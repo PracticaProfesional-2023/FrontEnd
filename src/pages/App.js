@@ -8,6 +8,7 @@ import{
 import Login from './authentication/login';
 import LandingPage from './landingPage/landingPage';
 import Register from './authentication/register';
+import Token from './authentication/TokenAuth';
 
 function App() {
   
@@ -18,7 +19,8 @@ function App() {
         <Routes>
           <Route exact path="/hirejobs" element={< LandingPage />} />
           <Route exact path="/hirejobs/login" element={< Login />} />
-          <Route exact path="/hirejobs/register" element={< Register />} />
+          <Route exact path="/hirejobs/register" element={< Register />} />          
+          <Route exact path="/hirejobs/login/confirmation_code" element={< Token />} />
         </Routes>
       </div>
     </Router>

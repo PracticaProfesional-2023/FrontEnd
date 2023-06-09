@@ -10,13 +10,20 @@ import { Link } from 'react-router-dom';
 
 
 const Navbar = ({flag}) => {
+    var link
+    if(!flag)
+        link = "/hirejobs"
+    else
+        link = ""
+
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" >
+            <Box height="10%" sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
                     <Toolbar>
+                        
                         <Typography variant="h8" component="div" sx={{ flexGrow: 1 }}>
-                            HireJobs
+                            <Link to={link} style={{ color: '#FFFFFF',textDecoration: 'none' }}>HireJobs</Link>
                         </Typography>
                         { !flag ?
                             (<Box sx={{ flexGrow: 0.05 }} display="flex" justifyContent="space-between">

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Card, Box, ThemeProvider, TextField, Button } from '@mui/material';
 import { theme } from '../../Style/Theming';
 import Logo from '../../assets/Logo-bckBlue.png';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
@@ -29,7 +30,9 @@ const Login = () => {
                     <TextField id="Email" label="Email" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
-                    <Button variant="contained" color="primary">Login</Button>
+                    <Link to="/hirejobs/login/confirmation_code" style={{ color: '#FFFFFF' }} >
+                        <Button variant="contained" color="primary">Login</Button>
+                    </Link>
                 </Card>
             </Box>
         </ThemeProvider>

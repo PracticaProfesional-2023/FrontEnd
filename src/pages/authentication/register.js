@@ -26,19 +26,19 @@ const Register = () => {
                     style={{background: "#e0e0e0"}}
                     >
                     <Avatar alt="" src="/static/images/avatar/1.jpg" sx={{ width: '15vh', height: '15vh' }}/>
-                    <TextField id="Email" label="Email" variant="outlined" 
+                    <TextField id="first-name" label="First Name" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
-                    <TextField id="Email" label="Email" variant="outlined" 
+                    <TextField id="last-name" label="Last Name" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
-                    <TextField id="Email" label="Email" variant="outlined" 
+                    <TextField id="id" label="Personal ID" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
-                    <TextField id="Email" label="Email" variant="outlined" 
+                    <TextField id="municipality" label="Municipality" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
-                    <TextField id="Email" label="Email" variant="outlined" 
+                    <TextField id="email" label="Email" variant="outlined" 
                         inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
                         sx={{width: "50%", height: "25%"}} />
                     <Button variant="contained" color="primary">Register</Button>
