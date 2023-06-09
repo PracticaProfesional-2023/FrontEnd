@@ -20,10 +20,10 @@ const Navbar = ({flag}) => {
                         </Typography>
                         { !flag ?
                             (<Box sx={{ flexGrow: 0.05 }} display="flex" justifyContent="space-between">
-                                <Link to="/hirejobs/login">
+                                <Link to="/hirejobs/login" style={{ color: '#FFFFFF' }} >
                                     <Button variant="outlined" color="inherit">Login</Button>
                                 </Link>
-                                <Link to="/hirejobs/register">
+                                <Link to="/hirejobs/register" style={{ color: '#FFFFFF' }} >
                                     <Button variant="outlined" color="inherit">Register</Button>
                                 </Link>
                             </Box>) : 
