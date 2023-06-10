@@ -27,7 +27,7 @@ let theme = createTheme({
     },
     typography: {
         button: {
-        fontSize: 12,
+        fontSize: 15,
         }
     },
 });

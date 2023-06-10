@@ -19,7 +19,7 @@ const Navbar = ({flag}) => {
     return (
         <ThemeProvider theme={theme}>
             <Box height="10%" sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Toolbar>
                         
                         <Typography variant="h8" component="div" sx={{ flexGrow: 1 }}>
