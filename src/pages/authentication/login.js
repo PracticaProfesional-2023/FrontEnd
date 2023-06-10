@@ -11,7 +11,7 @@ const Login = () => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="90vh"
+                minHeight="100vh"
                 >
                 <Card
                     backgroundcolor="secondary"
