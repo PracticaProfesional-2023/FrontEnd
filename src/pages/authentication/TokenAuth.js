@@ -1,12 +1,34 @@
 import * as React from 'react';
-import { Card, Box, ThemeProvider, TextField, Button, Typography } from '@mui/material';
+import { Card, Box, ThemeProvider, Button, Typography } from '@mui/material';
 import { theme } from '../../Style/Theming';
 import Logo from '../../assets/Logo-bckBlue.png';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import FormInputOtpText from '../../components/FormInputOtpText';
+import axios from "axios";
+//import { useNavigate } from 'react-router-dom';
 
 const Token = ({setter, otplink}) => {
-    const handleClick=()=>{
-        setter(true)
+    const { handleSubmit, control, getValues } = useForm();
+
+    const LoginWithOTP=(data)=>{
+        var otpcode = getValues("OtpChar1") + getValues("OtpChar2") + getValues("OtpChar3") +
+                    getValues("OtpChar4") + getValues("OtpChar5") + getValues("OtpChar6")
+        otpcode = String(otpcode);
+        console.log(otpcode)
+        axios.post('/auth/signin-candidate', 
+            {
+                otp: otpcode
+            })
+        .then(function (response) {
+            console.log(response)
+            console.log(response.data.access_token)
+            setter(response.data.access_token, true)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
     }
 
     return (
@@ -51,24 +73,12 @@ const Token = ({setter, otplink}) => {
                             justifyContent="start"
                             width= "90%"
                             sx={{my:2}}>
-                            <TextField id="tokenchar1" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
-                            <TextField id="tokenchar2" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
-                            <TextField id="tokenchar3" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
-                            <TextField id="tokenchar4" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
-                            <TextField id="tokenchar5" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
-                            <TextField id="tokenchar6" label="#" variant="outlined" 
-                                inputProps={{ maxLength: 1, style: {fontSize: 18} }} InputLabelProps={{style: {fontSize: 18}}} 
-                                sx={{width: "8vh", height: "25%", mx:0.5}} />
+                            <FormInputOtpText  name={"OtpChar1"} control={control} label={"#"} />
+                            <FormInputOtpText  name={"OtpChar2"} control={control} label={"#"} />
+                            <FormInputOtpText  name={"OtpChar3"} control={control} label={"#"} />
+                            <FormInputOtpText  name={"OtpChar4"} control={control} label={"#"} />
+                            <FormInputOtpText  name={"OtpChar5"} control={control} label={"#"} />
+                            <FormInputOtpText  name={"OtpChar6"} control={control} label={"#"} />
                         </Box>
                         <Box display="flex"
                             justifyContent="space-between"
@@ -85,19 +95,16 @@ const Token = ({setter, otplink}) => {
                                 and accept our Terms and Conditions and Privacy Policy</p>
                             </Typography>
                         </Box>
-                        <Button variant="contained" color="primary" onClick={handleClick}>Continue</Button>
+                        <Button variant="contained" color="primary" 
+                        onClick={handleSubmit(LoginWithOTP)}>
+                            Continue
+                        </Button>
                     </Box>
                 </Card>
             </Box>
         </ThemeProvider>
     );
 }
-
-/*    
-export default function Child ({setter}) {
-    setter('Data from Child');
-    return (<></>)
-} */
 
 export default Token
 
