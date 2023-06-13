@@ -13,19 +13,23 @@ import {
 } from 'react-query';*/
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 
 //const queryClient = new QueryClient();
 axios.defaults.baseURL = 'https://helpful-woolens-elk.cyclic.app';
 
 
-const Login = () => {
+const Login = ({setter}) => {
     const { handleSubmit, control } = useForm();
+    const navigate = useNavigate();
 
     const sendOtp = async (data) => {
         axios.post('/auth/send-candidate-otp', 
             data)
         .then(function (response) {
             console.log(response);
+            setter(response.data.preview_url);
+            navigate('/hirejobs/login/confirmation_code');
         })
         .catch(function (error) {
             console.log(error);

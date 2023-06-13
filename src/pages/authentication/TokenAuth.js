@@ -4,7 +4,11 @@ import { theme } from '../../Style/Theming';
 import Logo from '../../assets/Logo-bckBlue.png';
 import { Link } from 'react-router-dom';
 
-const Token = () => {
+const Token = ({setter, otplink}) => {
+    const handleClick=()=>{
+        setter(true)
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -71,9 +75,9 @@ const Token = () => {
                             flexDirection= 'column'
                             width= "90%"
                             >
-                            <Link >
+                            <Link to={otplink} target='_blank'>
                                 <Typography variant="h7" gutterBottom >
-                                    Resend code
+                                    Link to code
                                 </Typography>
                             </Link>
                             <Typography variant="h7" gutterBottom sx={{ my: 0.5}} width="50%">
@@ -81,13 +85,19 @@ const Token = () => {
                                 and accept our Terms and Conditions and Privacy Policy</p>
                             </Typography>
                         </Box>
-                        <Button variant="contained" color="primary">Continue</Button>
+                        <Button variant="contained" color="primary" onClick={handleClick}>Continue</Button>
                     </Box>
                 </Card>
             </Box>
         </ThemeProvider>
     );
 }
+
+/*    
+export default function Child ({setter}) {
+    setter('Data from Child');
+    return (<></>)
+} */
 
 export default Token
 
