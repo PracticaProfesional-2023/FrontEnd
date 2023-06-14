@@ -10,33 +10,31 @@ import LandingPage from './landingPage/landingPage';
 import Register from './authentication/register';
 import Token from './authentication/TokenAuth';
 import axios from "axios";
+import Jobs from './Home/Jobs';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 axios.defaults.baseURL = 'https://helpful-woolens-elk.cyclic.app';
 
 function App() {
   
-  const [flag, setFlag] = React.useState(false);
-  const [otp, setOtp] = React.useState('');
-  const [token, setToken] = React.useState('');
 
-  const LoginIn= (accesToken, flagValue)=>{
-    setToken(accesToken);
-    setFlag(flagValue)
-    console.log(token)
-  }
+  const queryClient = new QueryClient();
 
   return (
-    <Router>
-      <div>
-        <Navbar flag={flag}/>
-        <Routes>
-          <Route exact path="/hirejobs" element={< LandingPage />} />
-          <Route exact path="/hirejobs/login" element={< Login setter={setOtp} />} />
-          <Route exact path="/hirejobs/register" element={< Register />} />          
-          <Route exact path="/hirejobs/login/confirmation_code" element={< Token  setter={LoginIn} otplink={otp}/>} />
-        </Routes>
-      </div>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route exact path="/hirejobs" element={< LandingPage />} />
+            <Route exact path="/hirejobs/login" element={< Login />} />
+            <Route exact path="/hirejobs/register" element={< Register />} />
+            <Route exact path="/hirejobs/login/confirmation_code" element={< Token />} />
+            <Route exact path="/hirejobs/jobs" element={<Jobs/>}/>
+          </Routes>
+        </div>
+      </Router>
+    </QueryClientProvider>
   );
 }
 

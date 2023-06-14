@@ -6,15 +6,23 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../Style/Theming';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
+import cookiesStorage from '../services/cookies/index'
 
 
-const Navbar = ({flag}) => {
+
+const Navbar = () => {
+    const navigate = useNavigate();
     var link
-    if(!flag)
+    if(cookiesStorage.get('token') === undefined)
         link = "/hirejobs"
     else
-        link = ""
+        link = "/hirejobs/jobs"
+
+    const onLogout = () =>{
+        cookiesStorage.delete('token')
+        navigate('/hirejobs');
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -25,7 +33,7 @@ const Navbar = ({flag}) => {
                         <Typography variant="h8" component="div" sx={{ flexGrow: 1 }}>
                             <Link to={link} style={{ color: '#FFFFFF',textDecoration: 'none' }}>HireJobs</Link>
                         </Typography>
-                        { !flag ?
+                        { (cookiesStorage.get('token') === undefined) ?
                             (<Box sx={{ flexGrow: 0.05 }} display="flex" justifyContent="space-between">
                                 <Link to="/hirejobs/login" style={{ color: '#FFFFFF' }} >
                                     <Button variant="outlined" color="inherit">Login</Button>
@@ -34,7 +42,7 @@ const Navbar = ({flag}) => {
                                     <Button variant="outlined" color="inherit">Register</Button>
                                 </Link>
                             </Box>) : 
-                            (<Button variant="outlined" color="inherit" >Logout</Button>)                                
+                            (<Button variant="outlined" color="inherit" onClick={onLogout}>Logout</Button>)                                
                         }   
                     </Toolbar>
                 </AppBar>
