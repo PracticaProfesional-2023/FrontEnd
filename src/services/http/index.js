@@ -9,11 +9,12 @@ const createInstance = () => {
         baseURL: 'https://helpful-woolens-elk.cyclic.app',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token ?? `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     })
 
     return instance;
 }
+
 
 export default createInstance;

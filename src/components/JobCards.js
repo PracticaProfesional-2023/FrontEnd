@@ -14,17 +14,17 @@ function JobCards({jobTittle, descripcion }) {
     return (
         <ThemeProvider theme={theme}>
         <Card 
-            sx={{ minWidth: 275 }}
+            sx={{ minWidth: 275, height: '10rem', width: '150vh'}}
         >
             <Box 
                 display='flex'
                 flexDirection="row"
-                justifyContent="center"
-                alignItems="left"
+                justifyContent="space-around"
+                alignItems="center"
                 sx={{ my: 2}}
             >
-                <img src = {Image_Placeholder} alt='logo' width="20%"/>
-                <CardContent>
+                <img src = {Image_Placeholder} alt='logo' sizes='20%'/>
+                <CardContent sx={{width: '70%'}}>
                     <Typography variant="h5" component="div">
                         {jobTittle}
                     </Typography>
