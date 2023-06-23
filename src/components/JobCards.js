@@ -8,9 +8,31 @@ import Typography from '@mui/material/Typography';
 import Image_Placeholder from '../assets/Image_Placeholder.png'
 import {ThemeProvider} from '@mui/material';
 import { theme } from '../Style/Theming';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify'
+import { jobsAplication } from '../services/http/job.service';
 
 
-function JobCards({jobTittle, descripcion }) {
+function JobCards({jobTittle, descripcion, id }) {
+
+    const { mutate } = useMutation({
+            mutationKey: 'confirmOtp',
+            mutationFn: jobsAplication,
+            onSuccess: (data) => {
+                toast.dismiss();
+                toast.success("Your application for this job was successfully submitted",{position: toast.POSITION.BOTTOM_LEFT})
+            },
+            onMutate: () => {
+                toast.loading("Please wait...",{position: toast.POSITION.BOTTOM_LEFT})
+            },
+            onError: (error) => {
+                toast.dismiss();
+                toast.error(error.response.data.message,{position: toast.POSITION.BOTTOM_LEFT})
+            }
+        });
+
+    const applyToJob = () => mutate(id)
+
     return (
         <ThemeProvider theme={theme}>
         <Card 
@@ -33,7 +55,7 @@ function JobCards({jobTittle, descripcion }) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button variant="contained" color="primary" size="small">Apply</Button>
+                    <Button variant="contained" color="primary" size="small" onClick={()=>applyToJob()}>Apply</Button>
                 </CardActions>
             </Box>
         </Card>

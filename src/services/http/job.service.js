@@ -7,3 +7,11 @@ export const jobsList = async () => {
     
     return response;
 }
+
+export const jobsAplication = async (id) => {
+    const { data: response } = await authInstance.get('/job-positions', {
+        id,
+    });;
+    
+    return response;
+}

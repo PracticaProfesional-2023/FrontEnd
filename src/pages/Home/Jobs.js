@@ -9,6 +9,7 @@ import {
 import { jobsList } from '../../services/http/job.service';
 import cookiesStorage from '../../services/cookies/index'
 import { useNavigate} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify'
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function Jobs() {
             <Todos />
           </Grid>
         </Box>
+        <ToastContainer autoClose={8000}/>
       </div>
     </QueryClientProvider>
   )
@@ -45,7 +47,7 @@ function Todos() {
     <div>
       {query?.data?.jobPositions.map(job => (
         <Grid item xs={4} md={3} marginY={2}>
-          < JobCards jobTittle={job.name} descripcion={job.description}/> 
+          < JobCards jobTittle={job.name} descripcion={job.description} id={job.id}/> 
         </Grid>
         ))}
     </div>
