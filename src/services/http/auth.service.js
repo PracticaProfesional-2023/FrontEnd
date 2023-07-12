@@ -8,6 +8,12 @@ export const login = async (data) => {
     return response;
 }
 
+export const register = async (data) => {
+    const { data: response } = await authInstance.post('/auth/send-candidate-otp', data);
+    
+    return response;
+}
+
 export const obtainUser = async (otp) => {
     const { data } = await authInstance.post('/auth/signin-candidate', {
         otp,
