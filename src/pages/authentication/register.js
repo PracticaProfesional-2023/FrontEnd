@@ -1,169 +1,212 @@
 import * as React from 'react';
-import { Card, Box, ThemeProvider, Alert, TextField, Button, Avatar } from '@mui/material';
+import { Card, Box, ThemeProvider, TextField, Button, Avatar, Select, MenuItem, OutlinedInput, InputLabel, FormControl } from '@mui/material';
 import { theme } from '../../Style/Theming';
-import { useState } from 'react';
-import axios from 'axios';
+import { useForm, Controller } from 'react-hook-form'
+import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-
-const baseUrl = "https://helpful-woolens-elk.cyclic.app";
-
+import { signUp } from '../../services/http/auth.service';
+import { getDeparments } from '../../services/http/utils.service';
+import { ToastContainer, toast } from 'react-toastify'
 
 const Register = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [doc, setDoc] = useState('');
-    const [municipality, setMunicipality] = useState('');
-
-
-    const [showMessage, setShowMessage] = useState(false); 
-    const [error, setError] = useState(false)
-    const [message, setMessage] = useState("")
-    const [buttonLabel, setButtonLabel] = useState("Register");
-
     const navigate = useNavigate();
+    const { data: departments, isLoading } = useQuery({
+        queryKey: 'departments',
+        queryFn: getDeparments,
+    });
+    const { mutate } = useMutation({
+        mutationKey: 'registerUser',
+        mutationFn: signUp,
+        onSuccess: (data) => {
+            toast.dismiss();
+            toast.success(data.message, { position: toast.POSITION.BOTTOM_LEFT })
+            navigate("/hirejobs/login", { replace: true });
+        },
+        onMutate: () => {
+            toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_LEFT })
+        },
+        onError: (error) => {
+            toast.dismiss();
+            toast.error(error.response.data.message, { position: toast.POSITION.BOTTOM_LEFT })
+        }
+    });
+    const { handleSubmit, control } = useForm({
+        defaultValues: {
+            email: '',
+            names: '',
+            lastNames: '',
+            document: '',
+            municipality: 0
+        }
+    });
 
-    const callRegisterApi = () => {
-        // Verificamos el estado del botón
-        if (buttonLabel != "Register") {
-            console.log("navegar al login");
-            navigate("/hirejobs/login", {replace: true});
-            return;
-        }
+    const onSubmit = (data) => {
+        mutate({
+            ...data,
+            municipality: parseInt(data.municipality),
+            documentType: 'DUI'
+        });
+    };
 
-        // Validamos el ingreso de datos
-        if (email == "" || firstName == "" || lastName == "" || doc == "" || municipality == "") {
-            setError(true);
-            setShowMessage(true);
-            setMessage("Debe completar todos los datos requeridos");
-            return;
-        }
-
-        const registerData = {
-            email: email,
-            names: firstName,
-            lastNames: lastName,
-            document: doc,
-            municipality: Number(municipality)
-        }
-    
-        setError(false);
-        setShowMessage(false);
-        // const sendRegister = aync ()=> {
-            axios.post(baseUrl + "/auth/signup-candidate", registerData)
-            .then(response => {
-                setError(false)
-                setShowMessage(true)
-                setMessage("Usuario registrado con éxito!")
-                setButtonLabel("Go to Login");
-            })  
-            .catch(error => {
-                setError(true);
-                setShowMessage(true);
-                setMessage(error.response.data.message)
-                console.error('There was an error!', error);
-            });
-        // };
-    }
-
-    function checkDui(text) {
-        let resp = true;
-        var cont = 0;
-        for (let i = 0; i < text.length; i++) {
-            if ((text[i] < '0' || text[i] > '9') && text[i] != '-') {
-                resp = false;
-                break;
-            } else {
-                if (text[i] === '-') {
-                    if (cont > 0) {
-                        resp = false;
-                        break;
-                    } else {
-                        if (i != 8) {
-                            resp = false;
-                            break;
-                        }
-                    }
-                    cont++;
-                } else {
-                    if (i == 8) {
-                        resp = false;
-                        break;
-                    }
-                }
-            }
-        }
-        if (resp) {
-            if (text.length > 10) {
-                resp = false;
-            }
-        }
-        return resp;
-    }
-
-    function handleChange(event) {
-        if(checkDui(event.target.value) ) {
-            console.log('Valido');
-            setDoc(event.target.value);
-        } else {
-            console.log('No Valido');
-            event.target.value = doc;
-        }
-    }
-
-    function validateDuiInput(event) {
-        var resp = false;
-        if (event.keyCode >= 48 && event.keyCode <= 57) {
-            console.log("Caracter valido");
-            resp = true;
-        } else {
-            console.log("Caracter invalido");
-        }
-        return resp;
-    }
-    
     return (
         <ThemeProvider theme={theme}>
+            <ToastContainer />
             <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="115vh"
-                >
+                sx={{
+                    marginTop: '8rem',
+                }}
+            >
                 <Card
                     backgroundcolor="secondary"
-                    sx={{ 
-                        minHeight: '90vh', 
-                        minWidth: '90vh', 
+                    sx={{
+                        minWidth: '90vh',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        boxShadow: 'none'
-                        }}
-                    style={{background: "#e0e0e0"}}
-                    >
-                    <Avatar alt="" src="/static/images/avatar/1.jpg" sx={{ width: '15vh', height: '15vh' }}/>
-                    <TextField id="first-name" label="First Name" variant="outlined" disabled={buttonLabel != "Register"}
-                        inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
-                        sx={{width: "50%", height: "25%"}} value={firstName} onChange={event => setFirstName(event.target.value)}/>
-                    <TextField id="last-name" label="Last Name" variant="outlined" disabled={buttonLabel != "Register"}
-                        inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
-                        sx={{width: "50%", height: "25%"}} value={lastName} onChange={event => setLastName(event.target.value)}/>
-                    <TextField id="id" label="Personal ID" variant="outlined" disabled={buttonLabel != "Register"}
-                        inputProps={{style: {fontSize: 12, backgroundColor: "white", borderRadius: 5}}} InputLabelProps={{style: {fontSize: 18}}} 
-                        sx={{width: "50%", height: "25%"}} value={doc} onChange={event => handleChange(event)} />
-                    <TextField id="municipality" label="Municipality" variant="outlined" disabled={buttonLabel != "Register"}
-                        inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
-                        sx={{width: "50%", height: "25%"}} value={municipality} onChange={event => setMunicipality(event.target.value)}/>
-                    <TextField id="email" label="Email" variant="outlined" disabled={buttonLabel != "Register"}
-                        inputProps={{style: {fontSize: 12}}} InputLabelProps={{style: {fontSize: 18}}} 
-                        sx={{width: "50%", height: "25%"}} value={email} onChange={event => setEmail(event.target.value)}/>
-                    {showMessage ? <Alert severity={error ? "error" : "success"}>{message}</Alert> : null}
-                    <Button variant="contained" color="primary" onClick={callRegisterApi}>{buttonLabel}</Button>
+                        boxShadow: 'none',
+                        paddingBlock: '6rem',
+                        rowGap: '2rem'
+                    }}
+                    style={{ background: "#e0e0e0" }}
+                >
+                    <Avatar alt="" src="/static/images/avatar/1.jpg" sx={{ width: '15vh', height: '15vh' }} />
+                    <h1>Register an account</h1>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Box display='flex' flexDirection='column' alignItems='center' justifyContent='space-between' style={{
+                            rowGap: '1rem'
+                        }}>
+                            <Controller
+                                name="names"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                                    <TextField
+                                        sx={{ width: '50vh' }}
+                                        id="first-name"
+                                        label="First Name"
+                                        variant="outlined"
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        inputProps={{ style: { fontSize: 12 } }}
+                                        InputLabelProps={{ style: { fontSize: 18 } }}
+                                        value={value}
+                                        onChange={onChange} />
+                                )}
+                                rules={{
+                                    required: 'First Name required',
+                                }}
+                            />
+                            <Controller
+                                name="lastNames"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                                    <TextField
+                                        sx={{ width: '50vh' }}
+                                        id="last-name"
+                                        label="Last Name"
+                                        variant="outlined"
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        inputProps={{ style: { fontSize: 12 } }}
+                                        InputLabelProps={{ style: { fontSize: 18 } }}
+                                        value={value}
+                                        onChange={onChange} />
+                                )}
+                                rules={{
+                                    required: 'Last Name required',
+                                }}
+                            />
+                            <Controller
+                                name="document"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                                    <TextField
+                                        sx={{ width: '50vh' }}
+                                        id="dui"
+                                        label="DUI"
+                                        variant="outlined"
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        inputProps={{ style: { fontSize: 12 } }}
+                                        InputLabelProps={{ style: { fontSize: 18 } }}
+                                        value={value}
+                                        onChange={onChange} />
+                                )}
+                                rules={{
+                                    required: 'DUI required',
+                                    pattern: {
+                                        value: /^\d{9}$/,
+                                        message: 'Invalid DUI',
+                                    }
+                                }}
+                            />
+                            <Controller
+                                name="municipality"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                                    <FormControl>
+                                        <InputLabel id="municipality">Municipality</InputLabel>
+                                        <Select
+                                            sx={{ width: '50vh' }}
+                                            displayEmpty
+                                            id="municipality"
+                                            error={!!error}
+                                            input={<OutlinedInput label="Municipality" />}
+                                            value={departments?.find((department) => department.value === value) ? value : ''}
+                                            onChange={onChange} >
+                                            {
+                                                isLoading && <MenuItem value="" disabled>Loading...</MenuItem>
+                                            }
+                                            {
+                                                departments && departments.map((department) => (
+                                                    <MenuItem key={department.value} value={department.value}>{department.label}</MenuItem>
+                                                ))
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                )}
+                                rules={{
+                                    required: 'Municipality required',
+                                }}
+                            />
+                            <Controller
+                                name="email"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error }, }) => (
+                                    <TextField
+                                        sx={{ width: '50vh' }}
+                                        label="Email"
+                                        variant="outlined"
+                                        value={value}
+                                        onChange={onChange}
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        type="email"
+
+                                    />
+                                )}
+                                rules={{
+                                    required: 'Email required',
+                                    pattern: {
+                                        value: /^[\w.-]+@[\w.-]+\.\w+$/,
+                                        message: 'Invalid email address'
+                                    }
+                                }}
+                            />
+                            <Button type='submit' variant="contained" color="primary">Register</Button>
+                        </Box>
+                    </form>
                 </Card>
-            </Box>
-        </ThemeProvider>
+            </Box >
+        </ThemeProvider >
     );
 }
 
