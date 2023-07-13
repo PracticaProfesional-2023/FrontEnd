@@ -11,12 +11,12 @@ import Register from './authentication/register';
 import Token from './authentication/TokenAuth';
 import axios from "axios";
 import Jobs from './Home/Jobs';
+import NotFound from './NotFound'
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 axios.defaults.baseURL = 'https://helpful-woolens-elk.cyclic.app';
 
 function App() {
-  
 
   const queryClient = new QueryClient();
 
@@ -26,6 +26,7 @@ function App() {
         <div>
           <Navbar />
           <Routes>
+            <Route exact path="*" element={<NotFound />}/>
             <Route exact path="/hirejobs" element={< LandingPage />} />
             <Route exact path="/hirejobs/login" element={< Login />} />
             <Route exact path="/hirejobs/register" element={< Register />} />

@@ -9,11 +9,20 @@ import {
 import { jobsList } from '../../services/http/job.service';
 import cookiesStorage from '../../services/cookies/index'
 import { useNavigate} from 'react-router-dom';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
 function Jobs() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(cookiesStorage.get('token') === undefined){
+      console.log("a");
+      navigate('/');
+    }
+  });
   
   return (
     <QueryClientProvider client={queryClient}>

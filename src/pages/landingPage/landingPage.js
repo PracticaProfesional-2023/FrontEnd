@@ -27,11 +27,10 @@ const LandingPage = () => {
                         ABOUT US
                     </Typography>
                     <Typography variant="h6" gutterBottom sx={{my:5}}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                        et dolore magna aliqua. Morbi tincidunt ornare massa 
-                        eget egestas purus.Sagittis aliquam malesuada bibend
-                        um arcu vitae ele Vulputate dignissim suspendisse in e
-                        st ante in nibh. Eget lorem dolor sed viverra ipsum 
+                        HireJob provides a convenient and efficient way for job seekers to
+                        explore a wide range of employment opportunities. With just a few
+                        clicks, individuals can create a profile, upload their resumes, and
+                        browse through countless job listings from various industries.
                     </Typography>
                     <Link to="/hirejobs/register" style={{ color: '#FFFFFF' }} >
                         <Button variant="contained" color="primary" sx={{ py:2, px:4}}>Register Now</Button>
