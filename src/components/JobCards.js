@@ -19,6 +19,8 @@ function JobCards({jobTittle, descripcion, id }) {
             mutationKey: 'confirmOtp',
             mutationFn: jobsAplication,
             onSuccess: (data) => {
+                console.log("khe?: ")
+                console.log(data)
                 toast.dismiss();
                 toast.success("Your application for this job was successfully submitted",{position: toast.POSITION.BOTTOM_LEFT})
             },
@@ -36,14 +38,13 @@ function JobCards({jobTittle, descripcion, id }) {
     return (
         <ThemeProvider theme={theme}>
         <Card 
-            sx={{ minWidth: 275, height: '10rem', width: '150vh'}}
+            sx={{ height: '10rem', width: '80rem'}}
         >
             <Box 
                 display='flex'
                 flexDirection="row"
-                justifyContent="space-around"
+                justifyContent="start"
                 alignItems="center"
-                sx={{ my: 2}}
             >
                 <img src = {Image_Placeholder} alt='logo' sizes='20%'/>
                 <CardContent sx={{width: '70%'}}>

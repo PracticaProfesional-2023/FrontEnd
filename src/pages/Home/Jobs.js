@@ -28,7 +28,7 @@ function Jobs() {
     <QueryClientProvider client={queryClient}>
       <div> 
         <Box 
-          sx={{my: '12vh', ml: '30vh'}}
+          sx={{my: '12vh', ml: '5rem'}}
           minHeight="100%"
           width="75%"
           >
@@ -55,7 +55,7 @@ function Todos() {
   return (
     <div>
       {query?.data?.jobPositions.map(job => (
-        <Grid item xs={4} md={3} marginY={2}>
+        <Grid item md={3} marginY={2}>
           < JobCards jobTittle={job.name} descripcion={job.description} id={job.id}/> 
         </Grid>
         ))}

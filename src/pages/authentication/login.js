@@ -39,7 +39,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const sendOtp = (data) => {
-        cookiesStorage.set('email', data )
+        cookiesStorage.set('email', data.email )
         mutate(data)
     }
 
