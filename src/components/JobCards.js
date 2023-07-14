@@ -20,7 +20,8 @@ function JobCards({jobTittle, descripcion, id }) {
             mutationFn: jobsAplication,
             onSuccess: (data) => {
                 console.log("khe?: ")
-                console.log(data)
+                console.log(data
+                    )
                 toast.dismiss();
                 toast.success("Your application for this job was successfully submitted",{position: toast.POSITION.BOTTOM_LEFT})
             },
