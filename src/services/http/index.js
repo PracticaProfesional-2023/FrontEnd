@@ -7,7 +7,7 @@ const createInstance = () => {
 
     const instance = axios.create({
         //baseURL: 'https://helpful-woolens-elk.cyclic.app',
-        baseURL: 'https://173.254.242.213:3000',
+        baseURL: 'http://173.254.242.213:3000',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
